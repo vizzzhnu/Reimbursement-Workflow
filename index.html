@@ -593,16 +593,24 @@
     <!-- TABLE WRAPPER -->
     <div class="table-wrapper">
       <table id="editTable">
-        <thead>
-          <tr>
-            <th>Invoice No</th>
-            <th>Bill Name</th>
-            <th>Site</th>
-            <th>Amount INR</th>
-            <th>Extra Charges</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+<thead>
+  <tr>
+    <th>Invoice No</th>
+    <th>Bill Name</th>
+    <th>Invoice Date</th>
+    <th>Site</th>
+    <th>Sub Ledger</th>
+    <th>GST Number</th>
+    <th>Currency</th>
+    <th>Amount</th>
+    <th>Amount USD</th>
+    <th>Amount INR</th>
+    <th>Payment Method</th>
+    <th>Extra Charges?</th>
+    <th>Charges Amount</th>
+    <th>Action</th>
+  </tr>
+</thead>
         <tbody></tbody>
       </table>
     </div>
@@ -745,23 +753,31 @@ async function loadEditData(){
   const tbody = document.querySelector('#editTable tbody');
   tbody.innerHTML='';
 
-  rows.forEach(r=>{
-    const invDate = new Date(r.invoiceDate);
-    if(invDate < from || invDate > to) return;
+rows.forEach(r => {
+  const invDate = new Date(r.invoiceDate);
+  if (invDate < from || invDate > to) return;
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="locked-cell">${r.invoiceNumber}</td>
-      <td contenteditable="true">${r.billName || ''}</td>
-      <td contenteditable="true">${r.site || ''}</td>
-      <td contenteditable="true">${r.amountINR || ''}</td>
-      <td contenteditable="true">${r.chargesAmount || 0}</td>
-      <td>
-        <button class="save-btn" onclick="saveRow(this)">Save</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="locked-cell">${r.invoiceNumber}</td>
+    <td contenteditable="true">${r.billName || ''}</td>
+    <td class="locked-cell">${r.invoiceDate || ''}</td>
+    <td contenteditable="true">${r.site || ''}</td>
+    <td contenteditable="true">${r.subLedger || ''}</td>
+    <td contenteditable="true">${r.gstNumber || ''}</td>
+    <td class="locked-cell">${r.currency || ''}</td>
+    <td contenteditable="true">${r.amount || ''}</td>
+    <td class="locked-cell">${r.amountUSD || ''}</td>
+    <td contenteditable="true">${r.amountINR || ''}</td>
+    <td contenteditable="true">${r.paymentMethod || ''}</td>
+    <td contenteditable="true">${r.hasExtraCharges ? 'Yes' : 'No'}</td>
+    <td contenteditable="true">${r.chargesAmount || 0}</td>
+    <td>
+      <button class="save-btn" onclick="saveRow(this)">Save</button>
+    </td>
+  `;
+  tbody.appendChild(tr);
+});
 }
 
 
@@ -777,13 +793,21 @@ async function saveRow(btn){
   const row = btn.closest('tr');
   const cells = row.querySelectorAll('td');
 
-  const payload = {
-    invoiceNumber: cells[0].innerText.trim(),
-    billName: cells[1].innerText.trim(),
-    site: cells[2].innerText.trim(),
-    amountINR: cells[3].innerText.trim(),
-    chargesAmount: cells[4].innerText.trim()
-  };
+const payload = {
+  invoiceNumber: cells[0].innerText.trim(),
+  billName: cells[1].innerText.trim(),
+  invoiceDate: cells[2].innerText.trim(),
+  site: cells[3].innerText.trim(),
+  subLedger: cells[4].innerText.trim(),
+  gstNumber: cells[5].innerText.trim(),
+  currency: cells[6].innerText.trim(),
+  amount: cells[7].innerText.trim(),
+  amountUSD: cells[8].innerText.trim(),
+  amountINR: cells[9].innerText.trim(),
+  paymentMethod: cells[10].innerText.trim(),
+  hasExtraCharges: cells[11].innerText.trim().toLowerCase() === 'yes',
+  chargesAmount: cells[12].innerText.trim()
+};
 
   try{
     const res = await fetch(
