@@ -1,0 +1,1426 @@
+{
+  "name": "Reimbursement",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c",
+          "mode": "list",
+          "cachedResultName": "reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "invoiceNumber": "={{ $('Webhook').item.json.body.invoiceNumber }}",
+            "billName": "={{ $('Webhook').item.json.body.billName }}",
+            "invoiceDate": "={{ $('Webhook').item.json.body.invoiceDate }}",
+            "site": "={{ $('Webhook').item.json.body.site }}",
+            "subLedger": "={{ $('Webhook').item.json.body.subLedger }}",
+            "gstNumber": "={{ $('Webhook').item.json.body.gstNumber }}",
+            "currency": "={{ $('Webhook').item.json.body.currency }}",
+            "amount": "={{ $('Webhook').item.json.body.amountINR }}",
+            "amountUSD": "={{ $('Webhook').item.json.body.amountUSD }}",
+            "amountINR": "={{ $('Webhook').item.json.body.amountINR }}",
+            "paymentMethod": "={{ $('Webhook').item.json.body.paymentMethod }}",
+            "hasExtraCharges": "={{ $('Webhook').item.json.body.hasExtraCharges }}",
+            "chargesAmount": "={{ $('Webhook').item.json.body.extraCharges }}",
+            "execution id": "={{ $workflow.id }}",
+            "submmitted at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "invoiceNumber"
+          ],
+          "schema": [
+            {
+              "id": "billName",
+              "displayName": "billName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoiceNumber",
+              "displayName": "invoiceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoiceDate",
+              "displayName": "invoiceDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "site",
+              "displayName": "site",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subLedger",
+              "displayName": "subLedger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "gstNumber",
+              "displayName": "gstNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "amountUSD",
+              "displayName": "amountUSD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "amountINR",
+              "displayName": "amountINR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "paymentMethod",
+              "displayName": "paymentMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "hasExtraCharges",
+              "displayName": "hasExtraCharges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "chargesAmount",
+              "displayName": "chargesAmount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "updated",
+              "displayName": "updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created by",
+              "displayName": "created by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "submmitted at",
+              "displayName": "submmitted at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution id",
+              "displayName": "execution id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1168,
+        -176
+      ],
+      "id": "e5ba9f61-8e89-483f-b332-cb483be66bc4",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "U6HtLuUowsB5mlFV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c",
+          "mode": "list",
+          "cachedResultName": "reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        944,
+        592
+      ],
+      "id": "a8f3a5d7-3b54-4ade-816e-d8f6a3e2cc45",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "U6HtLuUowsB5mlFV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2288,
+        784
+      ],
+      "id": "3edb0771-706b-4a21-9f86-aa165e1fcf10",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get webhook data from the Webhook1 node (correct way)\nconst webhookData = $('Webhook1').item.json.body;\nconst fromDate = webhookData.fromDate || '';\nconst toDate = webhookData.toDate || '';\n\n// Get all items from previous node (Google Sheets data)\nconst items = $input.all();\n\nlet totalAmount = 0;\nlet totalExtraCharges = 0;\nlet grandTotal = 0;\nlet csvRows = [];\n\n// Function to convert number to words (Indian format)\nfunction numberToWords(num) {\n  const a = [\n    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',\n    'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen',\n    'Seventeen', 'Eighteen', 'Nineteen'\n  ];\n  const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];\n  \n  function convertLessThanThousand(n) {\n    if (n === 0) return '';\n    if (n < 20) return a[n];\n    if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? ' ' + a[n % 10] : '');\n    return a[Math.floor(n / 100)] + ' Hundred' + (n % 100 ? ' and ' + convertLessThanThousand(n % 100) : '');\n  }\n  \n  if (num === 0) return 'Zero';\n  \n  const [rupees, paise] = num.toFixed(2).split('.').map(Number);\n  let words = '';\n  \n  if (rupees >= 10000000) {\n    words += convertLessThanThousand(Math.floor(rupees / 10000000)) + ' Crore ';\n  }\n  \n  if (rupees >= 100000) {\n    words += convertLessThanThousand(Math.floor((rupees % 10000000) / 100000)) + ' Lakh ';\n  }\n  \n  if (rupees >= 1000) {\n    words += convertLessThanThousand(Math.floor((rupees % 100000) / 1000)) + ' Thousand ';\n  }\n  \n  const remaining = rupees % 1000;\n  if (remaining > 0) {\n    words += convertLessThanThousand(remaining);\n  }\n  \n  words = words.trim() + ' Rupees';\n  \n  if (paise > 0) {\n    words += ' and ' + convertLessThanThousand(paise) + ' Paise';\n  }\n  \n  return words + ' Only';\n}\n\n// CSV Header\ncsvRows.push([\n  'S.No',\n  'Bill Name',\n  'Invoice No',\n  'Invoice Date',\n  'Site',\n  'Sub Ledger',\n  'GST',\n  'Amount',\n  'Currency',\n  'Amount USD',\n  'Amount INR',\n  'Payment Method',\n  'Extra Charges',\n  'Status'\n]);\n\n// Process each record from Google Sheets\nitems.forEach((item, index) => {\n  const data = item.json;\n  \n  // Calculate amount for this record\n  const baseAmount = parseFloat(data.amountINR) || 0;\n  const extraCharges = (data.hasExtraCharges && data.chargesAmount) \n    ? parseFloat(data.chargesAmount) \n    : 0;\n  \n  const recordAmount = baseAmount + extraCharges;\n  \n  // Add to totals\n  totalAmount += baseAmount;\n  totalExtraCharges += extraCharges;\n  grandTotal += recordAmount;\n  \n  // Add row to CSV\n  csvRows.push([\n    index + 1,\n    data.billName || '',\n    data.invoiceNumber || '',\n    data.invoiceDate || '',\n    data.site || '',\n    data.subLedger || '',\n    data.gstNumber || '',\n    recordAmount.toFixed(2),\n    data.currency || '',\n    data.amountUSD || '',\n    baseAmount.toFixed(2),\n    data.paymentMethod || '',\n    extraCharges.toFixed(2),\n    data.updated || ''\n  ]);\n});\n\n// Add empty row\ncsvRows.push(['', '', '', '', '', '', '', '', '', '', '', '', '', '']);\n\n// Add total row with extra charges total\ncsvRows.push([\n  '',\n  '',\n  '',\n  '',\n  '',\n  'TOTAL',\n  '',\n  grandTotal.toFixed(2),\n  '',\n  '',\n  totalAmount.toFixed(2),\n  '',\n  totalExtraCharges.toFixed(2),\n  ''\n]);\n\n// Add empty rows\ncsvRows.push(['', '', '', '', '', '', '', '', '', '', '', '', '', '']);\ncsvRows.push(['', '', '', '', '', '', '', '', '', '', '', '', '', '']);\n\n// Add amount in words\nconst amountInWords = numberToWords(grandTotal);\ncsvRows.push(['', `Amounts in words: ${amountInWords}`, '', '', '', '', '', '', '', '', '', '', '', '']);\ncsvRows.push(['', '', '', '', '', '', '', '', '', '', '', '', '', '']);\ncsvRows.push(['', 'Prepared by Bala', '', '', 'Checked by Ayyanar', '', '', 'Approved by Praveen', '', '', '', '', '', '']);\n\n// Convert to CSV string\nconst csvContent = csvRows.map(row => \n  row.map(cell => {\n    const cellStr = String(cell);\n    if (cellStr.includes(',') || cellStr.includes('\"') || cellStr.includes('\\n')) {\n      return '\"' + cellStr.replace(/\"/g, '\"\"') + '\"';\n    }\n    return cellStr;\n  }).join(',')\n).join('\\n');\n\n// Create filename with date range\nconst fileName = `Reimbursement_Report_${fromDate}_to_${toDate}.csv`;\n\n// Return data for next nodes\nreturn [\n  {\n    json: {\n      csvContent: csvContent,\n      fileName: fileName,\n      amountInWords: amountInWords,\n      summary: {\n        totalAmount: totalAmount.toFixed(2),\n        totalExtraCharges: totalExtraCharges.toFixed(2),\n        grandTotal: grandTotal.toFixed(2),\n        recordCount: items.length,\n        fromDate: fromDate,\n        toDate: toDate\n      }\n    },\n    binary: {\n      data: {\n        data: Buffer.from(csvContent).toString('base64'),\n        mimeType: 'text/csv',\n        fileName: fileName\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        688
+      ],
+      "id": "b9e9f8bf-3a03-475f-84fd-a1817c843a6d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the data from the Webhook body\nconst items = $input.all();\n\nfor (let i = 0; i < items.length; i++) {\n  const base64Data = items[i].json.body.attachment;\n  \n  if (base64Data && base64Data.includes('base64,')) {\n    // 1. Strip the metadata header (e.g., data:image/jpeg;base64,)\n    const base64String = base64Data.split(';base64,').pop();\n    \n    // 2. Extract the mime type to set the file extension correctly\n    const mimeType = base64Data.match(/[^:]\\w+\\/[\\w-+\\.]+(?=;base64)/)[0];\n    const extension = mimeType.split('/')[1];\n\n    // 3. Convert and create the n8n binary object\n    items[i].binary = items[i].binary || {};\n    items[i].binary.data = await this.helpers.prepareBinaryData(\n      Buffer.from(base64String, 'base64'),\n      `bill_upload_${Date.now()}.${extension}`,\n      mimeType\n    );\n    \n    // Optional: Remove the huge base64 string from JSON to keep n8n fast\n    delete items[i].json.body.attachment;\n  }\n}\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        -176
+      ],
+      "id": "1f368444-b4a4-4896-a0eb-7e94cb02eb9c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Webhook').item.json.body.invoiceDate }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1s2hWSeo9pKw-2lcwKjfGfScUBl0LOlBV",
+          "mode": "list",
+          "cachedResultName": "CBO ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1s2hWSeo9pKw-2lcwKjfGfScUBl0LOlBV"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        944,
+        -176
+      ],
+      "id": "a008a599-efd9-428a-8cfe-892e3018dc50",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "eOboxjXD2SfXeWFI",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "jayashri.a@ottoclothing.in",
+        "subject": "Request to Check Reimbursement Status – CBO Bill",
+        "emailType": "text",
+        "message": "=Dear Team,  \n\nI hope you are doing well.  I would like t o request you to please check the reimbursement status of the CBO bill. Kindly find the attached document for your reference.  Please let me know if any additional information or clarification is required from my side.  Thank you for your support.",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "={{ Object.keys($binary).join(',') }}"
+              }
+            ]
+          },
+          "ccList": "vishnu.n@ottoclothing.in"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2064,
+        784
+      ],
+      "id": "89bb67ee-4230-44fb-a673-8411043b8b26",
+      "name": "Send a message",
+      "webhookId": "85a1ab0e-f714-4795-92e7-9f6642836b81",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5lM2ZhrNN8Rc1MzQ",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/drive/v3/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "='1s2hWSeo9pKw-2lcwKjfGfScUBl0LOlBV' in parents\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        880
+      ],
+      "id": "1d40eb5a-8bab-416b-a877-5783574db82d",
+      "name": "HTTP Request",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "eOboxjXD2SfXeWFI",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9050cff2-8092-4fc2-9e4b-d816183b3e06",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.fromDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "3b3cafa6-84d6-4107-bb0b-e1ce0818b859",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.toDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        880
+      ],
+      "id": "1135b9ff-9013-4652-bdaf-c6672ae184f2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "files",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        944,
+        880
+      ],
+      "id": "89255f6d-47aa-4a0f-a761-769b450cb473",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{$json.id}}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "alt",
+              "value": "media"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1392,
+        880
+      ],
+      "id": "764acfd8-1603-4f77-841a-4bcad84906d7",
+      "name": "HTTP Request1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "eOboxjXD2SfXeWFI",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1616,
+        784
+      ],
+      "id": "bc12aa2b-f380-4424-a731-38216bfcdc65",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "sample",
+        "options": {
+          "includeBinaries": true
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        784
+      ],
+      "id": "73b1bbf9-ea43-4196-82d1-26c5cf6f3a6a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "52496735-ca78-4311-a038-d3d2c9e23f03",
+              "leftValue": "=={{ $json.invoiceDate }}",
+              "rightValue": "=={{ $('Webhook1').item.json.body.fromDate }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            },
+            {
+              "id": "b674c5c9-1d6b-4256-8f8c-e6b3ba567622",
+              "leftValue": "=={{ $json.invoiceDate }}",
+              "rightValue": "=={{ $('Webhook1').item.json.body.toDate }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "2c0aae48-ce35-419e-a297-1d6576d5865d",
+              "leftValue": "={{ $json.updated }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        688
+      ],
+      "id": "4d2df628-ecdd-4bfc-8199-dd0c4d57449a",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c",
+          "mode": "list",
+          "cachedResultName": "reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "billName": "={{ $json.billName }}",
+            "invoiceNumber": "={{ $json.invoiceNumber }}",
+            "invoiceDate": "={{ $json.invoiceDate }}",
+            "updated": "DONE"
+          },
+          "matchingColumns": [
+            "invoiceNumber"
+          ],
+          "schema": [
+            {
+              "id": "billName",
+              "displayName": "billName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoiceNumber",
+              "displayName": "invoiceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoiceDate",
+              "displayName": "invoiceDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "site",
+              "displayName": "site",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "subLedger",
+              "displayName": "subLedger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "gstNumber",
+              "displayName": "gstNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "amountUSD",
+              "displayName": "amountUSD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "amountINR",
+              "displayName": "amountINR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "paymentMethod",
+              "displayName": "paymentMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "hasExtraCharges",
+              "displayName": "hasExtraCharges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "chargesAmount",
+              "displayName": "chargesAmount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "updated",
+              "displayName": "updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1168,
+        496
+      ],
+      "id": "fea8fd9c-ed0d-4675-a486-0a70bc59e3a6",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "U6HtLuUowsB5mlFV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d321cdb8-b310-4197-9bfc-f840eb34a3bf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        496,
+        -176
+      ],
+      "id": "2c054dc9-63b8-4d59-bd4c-b7d8e44185d6",
+      "name": "Webhook",
+      "webhookId": "d321cdb8-b310-4197-9bfc-f840eb34a3bf"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "35889b23-c42e-4f6a-b008-d116d85fadb8",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        496,
+        688
+      ],
+      "id": "5c51f8bb-0c25-42c7-9d9f-ebad63d618ac",
+      "name": "Webhook1",
+      "webhookId": "35889b23-c42e-4f6a-b008-d116d85fadb8"
+    },
+    {
+      "parameters": {
+        "path": "get-reimbursements",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        496,
+        48
+      ],
+      "id": "6080a69a-f498-4d9e-99be-f61ad37eae53",
+      "name": "Webhook2",
+      "webhookId": "b3804ea3-72e5-4246-b61d-d3dcb7fd6089"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        944,
+        48
+      ],
+      "id": "43ee823b-af83-4937-ab4a-8908975be1c1",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "update-reimbursement",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        496,
+        272
+      ],
+      "id": "7fc28864-b281-4bc3-ad12-b09f7c9ecb25",
+      "name": "Webhook3",
+      "webhookId": "291cab73-78c4-4e8c-bdad-b56df1609046"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c",
+          "mode": "list",
+          "cachedResultName": "reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        48
+      ],
+      "id": "4bf18c68-43bf-460f-be76-b57311b8631e",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "U6HtLuUowsB5mlFV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c",
+          "mode": "list",
+          "cachedResultName": "reimbursement",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13Jumrh3njny6yBj86LFqJ0PDu9--Q21w8ylId8FCN5c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "invoiceNumber": "={{ $json.body.invoiceNumber }}",
+            "billName": "={{ $json.body.billName }}",
+            "site": "={{ $json.body.site }}",
+            "amountINR": "={{ $json.body.amountINR }}",
+            "chargesAmount": "={{ $json.body.chargesAmount }}"
+          },
+          "matchingColumns": [
+            "invoiceNumber"
+          ],
+          "schema": [
+            {
+              "id": "billName",
+              "displayName": "billName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "invoiceNumber",
+              "displayName": "invoiceNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoiceDate",
+              "displayName": "invoiceDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "site",
+              "displayName": "site",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subLedger",
+              "displayName": "subLedger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "gstNumber",
+              "displayName": "gstNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amountUSD",
+              "displayName": "amountUSD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amountINR",
+              "displayName": "amountINR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "paymentMethod",
+              "displayName": "paymentMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hasExtraCharges",
+              "displayName": "hasExtraCharges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "chargesAmount",
+              "displayName": "chargesAmount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "updated",
+              "displayName": "updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created by",
+              "displayName": "created by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submmitted at",
+              "displayName": "submmitted at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution id",
+              "displayName": "execution id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "params",
+              "displayName": "params",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "webhookUrl",
+              "displayName": "webhookUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "executionMode",
+              "displayName": "executionMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        272
+      ],
+      "id": "941b59b5-7d2e-4099-a69f-60b377e06e5a",
+      "name": "Append or update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "U6HtLuUowsB5mlFV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        944,
+        272
+      ],
+      "id": "eab80ded-dd98-4d68-8f96-993b8743d2b3",
+      "name": "Respond to Webhook2"
+    }
+  ],
+  "pinData": {
+    "Webhook3": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.wowflo.io",
+            "x-real-ip": "203.101.44.47",
+            "x-forwarded-for": "203.101.44.47",
+            "x-forwarded-proto": "https",
+            "connection": "upgrade",
+            "content-length": "86",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "http://127.0.0.1:5500",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "http://127.0.0.1:5500/",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "invoiceNumber": "11",
+            "billName": "11",
+            "site": "12",
+            "amountINR": "1",
+            "chargesAmount": "0"
+          },
+          "webhookUrl": "https://n8n.wowflo.io/webhook/update-reimbursement",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "14e8eb51-c961-42e4-8622-8a212de9a10b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b193ca323cd53a8791d9a890c807713b9f9e5896a32db38dc53e58472b6d074a"
+  },
+  "id": "CtiOk9OwhQc01MJ3",
+  "tags": []
+}

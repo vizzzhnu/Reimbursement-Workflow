@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceFlow | Reimbursement Portal</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #64748b;
+            --success: #10b981;
+            --bg-body: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.95);
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            background: var(--glass);
+            width: 100%;
+            max-width: 1400px;
+            min-height: 85vh;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid white;
+        }
+
+        /* Sidebar Nav */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: var(--secondary);
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-btn.active {
+            background: #eef2ff;
+            color: var(--primary);
+        }
+
+        .nav-btn:hover:not(.active) {
+            background: #f8fafc;
+            color: var(--text-main);
+        }
+
+        /* Main Content Area */
+        .main-view {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .view-header {
+            margin-bottom: 30px;
+        }
+
+        .view-header h2 { font-size: 24px; font-weight: 700; }
+        .view-header p { color: var(--secondary); font-size: 14px; margin-top: 5px; }
+
+        /* Form Controls */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        
+        .field-group { display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 13px; font-weight: 600; color: #475569; }
+        
+        input, select {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        /* Table Styling */
+        .table-container {
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        table { width: 100%; border-collapse: collapse; background: white; }
+        
+        thead { background: #f8fafc; border-bottom: 1.5px solid var(--border); }
+        
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary);
+        }
+
+        td { padding: 16px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        
+        tr:last-child td { border: none; }
+
+        /* Editable UX */
+        .editable {
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: text;
+            transition: background 0.2s;
+        }
+
+        .editable:hover { background: #f1f5f9; box-shadow: inset 0 0 0 1px #cbd5e1; }
+        .editable:focus { background: white; box-shadow: 0 0 0 2px var(--primary); outline: none; }
+
+        .badge {
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Buttons */
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-main:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        .btn-save {
+            background: var(--success);
+            padding: 8px 16px;
+            color: white;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        /* Loading */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            place-items: center;
+            color: white;
+        }
+
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid #334155;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Mobile Utility */
+        @media (max-width: 900px) {
+            .dashboard { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader" class="overlay"><div class="spinner"></div></div>
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="logo"><span>💎</span> FinanceFlow</div>
+        <button class="nav-btn active" onclick="showTab('billing', this)"><span>📝</span> New Entry</button>
+        <button class="nav-btn" onclick="showTab('calculation', this)"><span>📊</span> Analytics</button>
+        <button class="nav-btn" onclick="showTab('edit', this)"><span>⚙️</span> Manage Data</button>
+    </aside>
+
+    <main class="main-view">
+        
+        <div id="billingTab" class="tab-view active">
+            <div class="view-header">
+                <h2>New Reimbursement</h2>
+                <p>Submit a new claim to the finance ledger</p>
+            </div>
+            <form id="billingForm" class="grid">
+                <div class="field-group"><label>Bill Name</label><input type="text" id="billName" required></div>
+                <div class="field-group"><label>Invoice #</label><input type="text" id="invoiceNumber" required></div>
+                <div class="field-group"><label>Date</label><input type="date" id="invoiceDate"></div>
+                <div class="field-group"><label>Site</label><input type="text" id="site"></div>
+                <div class="field-group"><label>Sub Ledger</label><input type="text" id="subLedger"></div>
+                <div class="field-group"><label>Currency</label><select id="currency"><option value="rupees">INR</option><option value="usd">USD</option></select></div>
+                <div class="field-group"><label>Amount</label><input type="number" id="amountINR"></div>
+                <div class="field-group"><label>Payment</label><select id="paymentMethod"><option value="card">Card</option></select></div>
+                <div style="grid-column: 1/-1"><button type="submit" class="btn-main">Create Record</button></div>
+            </form>
+        </div>
+
+        <div id="calculationTab" class="tab-view" style="display:none">
+            <div class="view-header">
+                <h2>Generate Report</h2>
+                <p>Download filtered data for your records</p>
+            </div>
+            <form id="calculationForm" class="grid">
+                <div class="field-group"><label>From</label><input type="date" id="calcFromDate" required></div>
+                <div class="field-group"><label>To</label><input type="date" id="calcToDate" required></div>
+                <div style="align-self: flex-end;"><button type="submit" class="btn-main">Sync & Generate</button></div>
+            </form>
+        </div>
+
+        <div id="editTab" class="tab-view" style="display:none">
+            <div class="view-header">
+                <h2>Manage Entries</h2>
+                <p>Filter, search, and live-edit existing invoice data</p>
+            </div>
+            
+            <div class="grid" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <div class="field-group"><label>Start Date</label><input type="date" id="editFromDate"></div>
+                <div class="field-group"><label>End Date</label><input type="date" id="editToDate"></div>
+                <div class="field-group" style="justify-content: flex-end;">
+                    <button class="btn-main" onclick="loadEditData()">Fetch Ledger</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="tableSearch" placeholder="Quick Search (Invoice, Site, Name)..." onkeyup="filterTable()" style="width: 100%; max-width: 400px; background: #f1f5f9; border: none;">
+            </div>
+
+            <div class="table-container">
+                <table id="editTable">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Bill Description</th>
+                            <th>Site Location</th>
+                            <th>Amt (INR)</th>
+                            <th>Extra</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="editTableBody">
+                        <tr><td colspan="6" style="text-align:center; color:#94a3b8; padding: 40px;">No data loaded. Please select a date range.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    let activeBtn = document.querySelector('.nav-btn.active');
+
+    function showTab(tab, btn) {
+        document.querySelectorAll('.tab-view').forEach(v => v.style.display = 'none');
+        document.getElementById(tab + 'Tab').style.display = 'block';
+        
+        activeBtn.classList.remove('active');
+        btn.classList.add('active');
+        activeBtn = btn;
+    }
+
+    function toggleLoader(show) { document.getElementById('loader').style.display = show ? 'grid' : 'none'; }
+
+    // --- FORM SUBMIT (BILLING) ---
+    document.getElementById('billingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        toggleLoader(true);
+        const payload = {
+            billName: document.getElementById('billName').value,
+            invoiceNumber: document.getElementById('invoiceNumber').value,
+            invoiceDate: document.getElementById('invoiceDate').value,
+            site: document.getElementById('site').value,
+            currency: document.getElementById('currency').value,
+            amountINR: document.getElementById('amountINR').value,
+            paymentMethod: document.getElementById('paymentMethod').value
+        };
+        try {
+            await fetch('https://n8n.wowflo.io/webhook/d321cdb8-b310-4197-9bfc-f840eb34a3bf', {
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            alert("Entry Saved Successfully!");
+            e.target.reset();
+        } catch(err) { alert("Error saving."); }
+        toggleLoader(false);
+    });
+
+    // --- LOAD DATA (MANAGE) ---
+    async function loadEditData() {
+        const from = document.getElementById('editFromDate').value;
+        const to = document.getElementById('editToDate').value;
+        if(!from || !to) return alert("Select date range");
+
+        toggleLoader(true);
+        try {
+            const res = await fetch('https://n8n.wowflo.io/webhook/get-reimbursements');
+            const data = await res.json();
+            const tbody = document.getElementById('editTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = data.filter(r => {
+                const d = new Date(r.invoiceDate);
+                return d >= new Date(from) && d <= new Date(to);
+            });
+
+            filtered.forEach(r => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="font-weight:700; color:#64748b">${r.invoiceNumber}</td>
+                        <td contenteditable="true" class="editable">${r.billName || ''}</td>
+                        <td contenteditable="true" class="editable">${r.site || ''}</td>
+                        <td><span class="badge" contenteditable="true">${r.amountINR || 0}</span></td>
+                        <td contenteditable="true" class="editable">${r.chargesAmount || 0}</td>
+                        <td><button class="btn-main btn-save" onclick="saveRow(this)">Update</button></td>
+                    </tr>
+                `;
+            });
+        } catch(err) { alert("Failed to fetch."); }
+        toggleLoader(false);
+    }
+
+    function filterTable() {
+        const query = document.getElementById('tableSearch').value.toLowerCase();
+        const rows = document.querySelectorAll('#editTableBody tr');
+        rows.forEach(r => {
+            const match = r.innerText.toLowerCase().includes(query);
+            r.style.display = match ? '' : 'none';
+        });
+    }
+
+    async function saveRow(btn) {
+        const row = btn.closest('tr');
+        const cells = row.cells;
+        const payload = {
+            invoiceNumber: cells[0].innerText,
+            billName: cells[1].innerText,
+            site: cells[2].innerText,
+            amountINR: cells[3].innerText,
+            chargesAmount: cells[4].innerText
+        };
+        
+        btn.innerText = "...";
+        try {
+            await fetch('https://n8n.wowflo.io/webhook/update-reimbursement', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            btn.style.background = "#059669";
+            btn.innerText = "Saved";
+            setTimeout(() => { btn.innerText = "Update"; btn.style.background = "#10b981"; }, 2000);
+        } catch(err) { alert("Update failed"); btn.innerText = "Update"; }
+    }
+</script>
+
+</body>
+</html>
