@@ -1,5 +1,5 @@
 {
-  "name": "Reimbursement",
+  "name": "Reimbursement Workflow",
   "nodes": [
     {
       "parameters": {
@@ -537,8 +537,8 @@
           "conditions": [
             {
               "id": "52496735-ca78-4311-a038-d3d2c9e23f03",
-              "leftValue": "=={{ $json.invoiceDate }}",
-              "rightValue": "=={{ $('Webhook1').item.json.body.fromDate }}",
+              "leftValue": "={{ $json.invoiceDate ? new Date($json.invoiceDate) : null }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.fromDate ? new Date($('Webhook1').item.json.body.fromDate) : null }}",
               "operator": {
                 "type": "dateTime",
                 "operation": "afterOrEquals"
@@ -546,8 +546,8 @@
             },
             {
               "id": "b674c5c9-1d6b-4256-8f8c-e6b3ba567622",
-              "leftValue": "=={{ $json.invoiceDate }}",
-              "rightValue": "=={{ $('Webhook1').item.json.body.toDate }}",
+              "leftValue": "={{ $json.invoiceDate ? new Date($json.invoiceDate) : null }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.toDate ? new Date($('Webhook1').item.json.body.toDate) : null }}",
               "operator": {
                 "type": "dateTime",
                 "operation": "beforeOrEquals"
@@ -902,11 +902,19 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "invoiceNumber": "={{ $json.body.invoiceNumber }}",
-            "billName": "={{ $json.body.billName }}",
-            "site": "={{ $json.body.site }}",
-            "amountINR": "={{ $json.body.amountINR }}",
-            "chargesAmount": "={{ $json.body.chargesAmount }}"
+            "invoiceNumber": "={{ $('Webhook3').item.json.body.invoiceNumber }}",
+            "billName": "={{ $('Webhook3').item.json.body.billName }}",
+            "site": "={{ $('Webhook3').item.json.body.site }}",
+            "amountINR": "={{ $('Webhook3').item.json.body.amountINR }}",
+            "chargesAmount": "={{ $('Webhook3').item.json.body.chargesAmount }}",
+            "amountUSD": "={{ $('Webhook3').item.json.body.amountUSD }}",
+            "amount": "={{ $('Webhook3').item.json.body.amount }}",
+            "currency": "={{ $('Webhook3').item.json.body.currency }}",
+            "gstNumber": "={{ $('Webhook3').item.json.body.gstNumber }}",
+            "subLedger": "={{ $('Webhook3').item.json.body.subLedger }}",
+            "invoiceDate": "={{ $('Webhook3').item.json.body.invoiceDate }}",
+            "paymentMethod": "={{ $('Webhook3').item.json.body.paymentMethod }}",
+            "hasExtraCharges": "={{ $('Webhook3').item.json.body.hasExtraCharges }}"
           },
           "matchingColumns": [
             "invoiceNumber"
@@ -1172,7 +1180,7 @@
             "x-forwarded-for": "203.101.44.47",
             "x-forwarded-proto": "https",
             "connection": "upgrade",
-            "content-length": "86",
+            "content-length": "248",
             "sec-ch-ua-platform": "\"Windows\"",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
             "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
@@ -1191,12 +1199,86 @@
           "query": {},
           "body": {
             "invoiceNumber": "11",
-            "billName": "11",
-            "site": "12",
-            "amountINR": "1",
-            "chargesAmount": "0"
+            "billName": "100",
+            "invoiceDate": "2026-02-21",
+            "site": "ADMIN",
+            "subLedger": "1",
+            "gstNumber": "1",
+            "currency": "rupees",
+            "amount": "1",
+            "amountUSD": "",
+            "amountINR": "1000",
+            "paymentMethod": "card",
+            "hasExtraCharges": true,
+            "chargesAmount": "100"
           },
           "webhookUrl": "https://n8n.wowflo.io/webhook/update-reimbursement",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.wowflo.io",
+            "x-real-ip": "203.101.44.47",
+            "x-forwarded-for": "203.101.44.47",
+            "x-forwarded-proto": "https",
+            "connection": "upgrade",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "http://127.0.0.1:5500",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "http://127.0.0.1:5500/",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9",
+            "if-none-match": "W/\"623-O/9G0qBkmjpy4eUgt0W39xcZKQQ\""
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://n8n.wowflo.io/webhook/get-reimbursements",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.wowflo.io",
+            "x-real-ip": "106.195.33.62",
+            "x-forwarded-for": "106.195.33.62",
+            "x-forwarded-proto": "https",
+            "connection": "upgrade",
+            "content-length": "47",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Microsoft Edge\";v=\"145\", \"Chromium\";v=\"145\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "http://127.0.0.1:5500",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "http://127.0.0.1:5500/",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9,en-IN;q=0.8"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "fromDate": "2026-02-21",
+            "toDate": "2026-02-22"
+          },
+          "webhookUrl": "https://n8n.wowflo.io/webhook/35889b23-c42e-4f6a-b008-d116d85fadb8",
           "executionMode": "production"
         }
       }
@@ -1416,7 +1498,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "14e8eb51-c961-42e4-8622-8a212de9a10b",
+  "versionId": "a20e693b-2b84-4054-b177-8849dae69374",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b193ca323cd53a8791d9a890c807713b9f9e5896a32db38dc53e58472b6d074a"
