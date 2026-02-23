@@ -236,7 +236,7 @@
                             <option value="USD">Dollar (USD)</option>
                         </select>
                     </div>
-                    <div class="group"><label>Amount <span class="required">*</span></label><input type="number" id="amount" placeholder="0.00" step="0.01" required></div>
+                    <div class="group"><label>Base Amount <span class="required">*</span></label><input type="number" id="amount" placeholder="0.00" step="0.01" required></div>
                     
                     <div class="group full-width charges-box">
                         <div style="display:flex; align-items:center; gap:12px;">
@@ -244,8 +244,8 @@
                             <label for="hasExtraCharges" style="cursor:pointer; margin:0; font-size: 0.95rem; font-weight: 700;">Apply Additional Charges (%)</label>
                         </div>
                         <div id="chargesContainer" style="display:none; margin-top: 15px;">
-                            <label style="font-size: 0.75rem; color: var(--primary);">Extra Percentage (Tax, Tips, etc. %)</label>
-                            <input type="number" id="chargesAmount" placeholder="e.g. 5 for 5%" step="0.01" style="margin-top:5px;">
+                            <label style="font-size: 0.75rem; color: var(--primary);">Charge Percentage (%)</label>
+                            <input type="number" id="chargesAmount" placeholder="e.g. 5" step="0.01" style="margin-top:5px;">
                         </div>
                     </div>
                     
@@ -292,8 +292,8 @@
                             <th>GSTIN</th>
                             <th>Curr</th>
                             <th>Total (₹)</th>
-                            <th>Amount (USD)</th>
-                            <th>Amount (INR)</th>
+                            <th>Base (USD)</th>
+                            <th>Base (INR)</th>
                             <th>Charges (%)</th>
                             <th>Actions</th>
                         </tr>
@@ -337,6 +337,8 @@ async function fetchUsdToInrRate() {
         if (data?.rates?.INR) {
             USD_TO_INR_RATE = data.rates.INR;
             rateLastFetched = today;
+            localStorage.setItem('usdToInrRate', USD_TO_INR_RATE);
+            localStorage.setItem('usdToInrRateDate', today);
         }
     } catch (e) { console.error('Rate fetch failed'); }
 }
@@ -344,27 +346,27 @@ async function fetchUsdToInrRate() {
 document.getElementById('billingForm').onsubmit = async function (e) {
     e.preventDefault();
     loader(true, "Uploading Record...");
+    
     const file = document.getElementById('file').files[0];
-    const toBase64 = f => new Promise((resolve, reject) => {
+    const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.readAsDataURL(f);
+        reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
     });
-    
+
     const attachmentBase64 = await toBase64(file);
     const currency = document.getElementById('currency').value;
-    const baseAmount = parseFloat(document.getElementById('amount').value) || 0;
+    const enteredAmount = parseFloat(document.getElementById('amount').value) || 0;
 
     if (currency === 'USD') { await fetchUsdToInrRate(); }
     
-    // Original Base logic
-    const baseINR = currency === 'USD' ? baseAmount * USD_TO_INR_RATE : baseAmount;
-    const extraPercent = document.getElementById('hasExtraCharges').checked 
-        ? parseFloat(document.getElementById('chargesAmount').value || 0) : 0;
+    const baseAmountINR = currency === 'USD' ? enteredAmount * USD_TO_INR_RATE : enteredAmount;
     
-    // Total calculation
-    const totalINR = (baseINR * (1 + extraPercent / 100)).toFixed(2);
+    // PERCENTAGE CALCULATION
+    const chargePercent = document.getElementById('hasExtraCharges').checked 
+        ? parseFloat(document.getElementById('chargesAmount').value || 0) : 0;
+    const finalAmountINR = (baseAmountINR * (1 + chargePercent / 100)).toFixed(2);
 
     const payload = {
         billName: billName.value,
@@ -374,11 +376,12 @@ document.getElementById('billingForm').onsubmit = async function (e) {
         subLedger: subLedger.value,
         gstNumber: gstNumber.value,
         currency: currency,
-        amountINR: totalINR, // This is saved as the total for reimbursement
-        baseAmountINR: baseINR.toFixed(2), // This is saved as original base
-        amountUSD: (totalINR / USD_TO_INR_RATE).toFixed(2),
-        extraCharges: extraPercent,
-        attachment: attachmentBase64
+        amountINR: finalAmountINR, // Total including charges
+        amountUSD: currency === 'USD' ? enteredAmount : (baseAmountINR / USD_TO_INR_RATE).toFixed(2), // Base amount in USD
+        hasExtraCharges: document.getElementById('hasExtraCharges').checked,
+        chargesAmount: chargePercent, // Saving the percentage
+        attachment: attachmentBase64,
+        amount: baseAmountINR.toFixed(2) // Base amount in INR
     };
 
     try {
@@ -387,7 +390,7 @@ document.getElementById('billingForm').onsubmit = async function (e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        if (r.ok) { alert("✅ Success!"); this.reset(); }
+        if (r.ok) { alert("✅ Success!"); this.reset(); document.getElementById('chargesContainer').style.display='none'; }
     } catch { alert("❌ Error"); }
     loader(false);
 };
@@ -413,8 +416,12 @@ async function loadEditData() {
             filtered.forEach(i => {
                 const tr = document.createElement('tr');
                 tr.setAttribute('data-inv', i.invoiceNumber);
-                // logic: i.amountINR is total, i.baseAmountINR is original
-                const displayBase = i.baseAmountINR || i.amountINR; 
+                
+                // Calculate Display Total: Base INR * (1 + Percent/100)
+                const baseInr = parseFloat(i.amount) || 0;
+                const percent = parseFloat(i.chargesAmount) || 0;
+                const totalInr = baseInr * (1 + percent / 100);
+
                 tr.innerHTML = `
                     <td style="font-weight:800;color:var(--primary)">${i.invoiceNumber}</td>
                     <td>${i.billName || ''}</td>
@@ -423,10 +430,10 @@ async function loadEditData() {
                     <td>${i.subLedger || ''}</td>
                     <td>${i.gstNumber || ''}</td>
                     <td>${i.currency || ''}</td>
-                    <td class="total-cell" style="font-weight:600; color:var(--success)">₹${i.amountINR || '0.00'}</td>
-                    <td class="usd-cell" style="color:var(--slate-600)">$${i.amountUSD || '0.00'}</td>
-                    <td class="base-cell" style="color:var(--slate-600)">₹${displayBase}</td>
-                    <td class="charges-cell">${i.extraCharges || 0}%</td>
+                    <td style="font-weight:700; color:var(--success)">₹${totalInr.toFixed(2)}</td>
+                    <td style="color:var(--slate-600)">$${i.amountUSD || '0.00'}</td>
+                    <td style="color:var(--slate-600)">₹${baseInr.toFixed(2)}</td>
+                    <td>${percent}%</td>
                     <td><button class="btn-edit" onclick="toggleEdit(this)">Edit</button></td>
                 `;
                 tbody.appendChild(tr);
@@ -437,18 +444,27 @@ async function loadEditData() {
     loader(false);
 }
 
-function syncCalculation(row) {
-    const baseInput = row.querySelector('.edit-inr');
+function syncAmounts(row, source) {
+    const inrInput = row.querySelector('.edit-inr');
+    const usdInput = row.querySelector('.edit-usd');
     const percentInput = row.querySelector('.edit-percent');
-    const totalCell = row.querySelector('.total-cell');
-    const usdCell = row.querySelector('.usd-cell');
+    const totalDisplay = row.cells[7];
 
-    const base = parseFloat(baseInput.value) || 0;
-    const pct = parseFloat(percentInput.value) || 0;
+    let inrVal = parseFloat(inrInput.value) || 0;
+    let usdVal = parseFloat(usdInput.value) || 0;
+    let percentVal = parseFloat(percentInput.value) || 0;
 
-    const newTotal = base * (1 + pct / 100);
-    totalCell.innerText = `₹${newTotal.toFixed(2)}`;
-    usdCell.innerText = `$${(newTotal / USD_TO_INR_RATE).toFixed(2)}`;
+    if (source === 'inr') {
+        usdVal = inrVal / USD_TO_INR_RATE;
+        usdInput.value = usdVal.toFixed(2);
+    } else if (source === 'usd') {
+        inrVal = usdVal * USD_TO_INR_RATE;
+        inrInput.value = inrVal.toFixed(2);
+    }
+
+    // Re-calculate Total (₹) live
+    const newTotal = inrVal * (1 + percentVal / 100);
+    totalDisplay.innerText = `₹${newTotal.toFixed(2)}`;
 }
 
 async function toggleEdit(btn) {
@@ -459,27 +475,30 @@ async function toggleEdit(btn) {
         btn.innerText = "Save";
         btn.className = "btn-save";
         
-        // Basic fields
         for (let i = 1; i <= 5; i++) cells[i].innerHTML = `<input class="edit-input" value="${cells[i].innerText}">`;
         
-        // Currency
         const curr = cells[6].innerText;
         cells[6].innerHTML = `<select class="edit-input"><option ${curr==='INR'?'selected':''}>INR</option><option ${curr==='USD'?'selected':''}>USD</option></select>`;
         
-        // Base Amount (INR) field
-        const rawBase = cells[9].innerText.replace('₹', '');
-        cells[9].innerHTML = `<input type="number" class="edit-input edit-inr" value="${rawBase}" oninput="syncCalculation(this.closest('tr'))">`;
+        // USD Base
+        const rawUsd = cells[8].innerText.replace('$', '');
+        cells[8].innerHTML = `<input type="number" class="edit-input edit-usd" value="${rawUsd}" oninput="syncAmounts(this.closest('tr'), 'usd')">`;
 
-        // Charges % field
-        const rawPct = cells[10].innerText.replace('%', '');
-        cells[10].innerHTML = `<input type="number" class="edit-input edit-percent" value="${rawPct}" oninput="syncCalculation(this.closest('tr'))">`;
+        // INR Base
+        const rawInr = cells[9].innerText.replace('₹', '');
+        cells[9].innerHTML = `<input type="number" class="edit-input edit-inr" value="${rawInr}" oninput="syncAmounts(this.closest('tr'), 'inr')">`;
+
+        // Percent
+        const rawPercent = cells[10].innerText.replace('%', '');
+        cells[10].innerHTML = `<input type="number" class="edit-input edit-percent" value="${rawPercent}" oninput="syncAmounts(this.closest('tr'), 'percent')">`;
         
     } else {
         loader(true, "Updating...");
         
-        const finalBase = parseFloat(cells[9].querySelector('input').value) || 0;
-        const finalPct = parseFloat(cells[10].querySelector('input').value) || 0;
-        const finalTotal = (finalBase * (1 + finalPct / 100)).toFixed(2);
+        const baseINR = parseFloat(cells[9].querySelector('input').value) || 0;
+        const baseUSD = parseFloat(cells[8].querySelector('input').value) || 0;
+        const percent = parseFloat(cells[10].querySelector('input').value) || 0;
+        const totalINR = baseINR * (1 + percent / 100);
 
         const payload = {
             action: 'update',
@@ -490,10 +509,10 @@ async function toggleEdit(btn) {
             subLedger: cells[4].querySelector('input').value,
             gstNumber: cells[5].querySelector('input').value,
             currency: cells[6].querySelector('select').value,
-            amountINR: finalTotal, // New Total
-            baseAmountINR: finalBase.toFixed(2), // Preserved Base
-            amountUSD: (finalTotal / USD_TO_INR_RATE).toFixed(2),
-            extraCharges: finalPct
+            amountINR: totalINR.toFixed(2),
+            amountUSD: baseUSD.toFixed(2),
+            amount: baseINR.toFixed(2),
+            chargesAmount: percent
         };
 
         try {
