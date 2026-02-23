@@ -55,7 +55,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Tabs Navigation */
         .nav-tabs { 
             display: flex; 
             background: var(--slate-100); 
@@ -92,7 +91,6 @@
 
         .tab-btn:hover:not(.active) { color: var(--primary-light); background: rgba(255,255,255,0.5); }
 
-        /* Animation & Layout */
         .content { display: none; animation: slideUp 0.5s ease forwards; }
         .content.active { display: block; }
         @keyframes slideUp { 
@@ -104,7 +102,6 @@
         .full-width { grid-column: 1 / -1; }
         .group { display: flex; flex-direction: column; gap: 8px; }
 
-        /* Forms */
         label { font-size: 0.85rem; font-weight: 700; color: var(--slate-700); padding-left: 4px; }
         .required { color: var(--danger); }
 
@@ -128,7 +125,6 @@
 
         input[type="file"] { padding: 10px; font-size: 0.9rem; background: var(--slate-50); border: 2px dashed var(--slate-200); }
 
-        /* Buttons */
         .btn-main { 
             background: var(--primary); 
             color: white; 
@@ -153,50 +149,38 @@
         .btn-edit:hover { background: var(--primary); color: white; }
         .btn-save { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; }
 
-        /* Table */
         .table-wrap { 
             margin-top: 30px; 
             border-radius: 20px; 
-            overflow-x: auto; /* Enable horizontal scroll for small screens */
+            overflow-x: auto; 
             border: 1px solid var(--slate-200); 
             background: white; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            -webkit-overflow-scrolling: touch;
         }
 
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            min-width: 1000px; /* Keep minimum width to prevent squishing */
-            table-layout: fixed; /* Forces consistent column widths */
+            min-width: 1300px;
+            table-layout: auto; 
         }
 
         th, td { 
             padding: 16px; 
             text-align: left; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
+            border-bottom: 1px solid var(--slate-100);
             white-space: nowrap; 
         }
 
-        /* Adjust specific column widths if needed */
-        th:nth-child(1) { width: 100px; } /* Inv # */
-        th:nth-child(7) { width: 80px; }  /* Currency */
-        th:nth-child(11) { width: 100px; } /* Actions */
+        th { background: var(--slate-50); font-weight: 700; color: var(--slate-700); }
 
-        /* Badges */
-        .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .badge-upi { background: #e0f2fe; color: #0369a1; }
-        .badge-card { background: #fef3c7; color: #92400e; }
-        .badge-cash { background: #dcfce7; color: #166534; }
-
-        /* Loader */
         .loader { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); display: none; justify-content: center; align-items: center; z-index: 1000; color: white; flex-direction: column; gap: 20px; backdrop-filter: blur(8px); }
         .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .edit-input { padding: 8px !important; border-radius: 8px !important; font-size: 0.85rem !important; border: 2px solid var(--primary-light) !important; height: auto !important; }
 
-        /* Extra Charges Toggle Box */
         .charges-box {
             background: var(--slate-50); 
             padding: 24px; 
@@ -253,22 +237,15 @@
                         </select>
                     </div>
                     <div class="group"><label>Amount <span class="required">*</span></label><input type="number" id="amount" placeholder="0.00" step="0.01" required></div>
-                    <div class="group"><label>Payment Method <span class="required">*</span></label>
-                        <select id="paymentMethod" required>
-                            <option value="Card">Card</option>
-                            <option value="Cash">Cash</option>
-                            <option value="UPI">UPI</option>
-                        </select>
-                    </div>
                     
                     <div class="group full-width charges-box">
                         <div style="display:flex; align-items:center; gap:12px;">
                             <input type="checkbox" id="hasExtraCharges" style="width:20px; height:20px; cursor:pointer; accent-color: var(--primary);"> 
-                            <label for="hasExtraCharges" style="cursor:pointer; margin:0; font-size: 0.95rem; font-weight: 700;">Apply Additional Charges</label>
+                            <label for="hasExtraCharges" style="cursor:pointer; margin:0; font-size: 0.95rem; font-weight: 700;">Apply Additional Charges (%)</label>
                         </div>
                         <div id="chargesContainer" style="display:none; margin-top: 15px;">
-                            <label style="font-size: 0.75rem; color: var(--primary);">Extra Amount (Tax, Tips, etc.)</label>
-                            <input type="number" id="chargesAmount" placeholder="0.00" step="0.01" style="margin-top:5px;">
+                            <label style="font-size: 0.75rem; color: var(--primary);">Extra Percentage (Tax, Tips, etc. %)</label>
+                            <input type="number" id="chargesAmount" placeholder="e.g. 5 for 5%" step="0.01" style="margin-top:5px;">
                         </div>
                     </div>
                     
@@ -289,15 +266,11 @@
                     <div class="grid">
                         <div class="group"><label>From Date <span class="required">*</span></label><input type="date" id="calcFromDate" required></div>
                         <div class="group"><label>To Date <span class="required">*</span></label><input type="date" id="calcToDate" required></div>
-                        
                         <div class="group full-width" style="display: flex; align-items: center; margin-top: 20px;">
                             <button type="submit" class="btn-main" style="max-width: 300px;">Generate Report</button>
                         </div>
                     </div>
                 </form>
-                <p style="text-align: center; color: var(--slate-600); margin-top: 20px; font-size: 0.9rem;">
-                    Reports will be processed and sent to your registered email address.
-                </p>
             </div>
         </div>
 
@@ -318,9 +291,10 @@
                             <th>Sub Ledger</th>
                             <th>GSTIN</th>
                             <th>Curr</th>
-                            <th>Amount</th>
-                            <th>Payment</th>
-                            <th>Charges</th>
+                            <th>Total (₹)</th>
+                            <th>Amount (USD)</th>
+                            <th>Amount (INR)</th>
+                            <th>Charges (%)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -333,230 +307,220 @@
         </div>
     </div>
 
-    <script>
-        // ORIGINAL LOGIC PRESERVED
-        window.onload = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('tab')) switchTab(null, urlParams.get('tab'));
-        };
+<script>
+let USD_TO_INR_RATE = 90.76;
+let rateLastFetched = null;
 
-        function switchTab(e, id) {
-            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            const targetBtn = e ? e.currentTarget : document.getElementById('tab-' + id);
-            if (targetBtn) targetBtn.classList.add('active');
+function switchTab(e, id) {
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const targetBtn = e ? e.currentTarget : document.getElementById('tab-' + id);
+    if (targetBtn) targetBtn.classList.add('active');
+}
+
+document.getElementById('hasExtraCharges').onchange = function () {
+    document.getElementById('chargesContainer').style.display = this.checked ? 'block' : 'none';
+};
+
+const loader = (show, text = "Processing...") => {
+    document.getElementById('loaderText').innerText = text;
+    document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+};
+
+async function fetchUsdToInrRate() {
+    const today = new Date().toISOString().split('T')[0];
+    if (rateLastFetched === today) return;
+    try {
+        const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await res.json();
+        if (data?.rates?.INR) {
+            USD_TO_INR_RATE = data.rates.INR;
+            rateLastFetched = today;
         }
+    } catch (e) { console.error('Rate fetch failed'); }
+}
 
-        document.getElementById('hasExtraCharges').onchange = function() {
-            document.getElementById('chargesContainer').style.display = this.checked ? 'block' : 'none';
-        };
-
-        const loader = (show, text = "Processing...") => {
-            document.getElementById('loaderText').innerText = text;
-            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
-        };
-
-        // SUBMIT BILL
-document.getElementById('billingForm').onsubmit = async function(e) {
+document.getElementById('billingForm').onsubmit = async function (e) {
     e.preventDefault();
     loader(true, "Uploading Record...");
+    const file = document.getElementById('file').files[0];
+    const toBase64 = f => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(f);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
     
-    const formData = new FormData();
-    // File must be appended
-    formData.append('data', document.getElementById('file').files[0]);
-    formData.append('action', 'create');
-    formData.append('billName', document.getElementById('billName').value);
-    formData.append('invoiceNumber', document.getElementById('invoiceNumber').value);
-    formData.append('invoiceDate', document.getElementById('invoiceDate').value);
-    formData.append('site', document.getElementById('site').value);
-    formData.append('subLedger', document.getElementById('subLedger').value);
-    formData.append('gstNumber', document.getElementById('gstNumber').value);
-    formData.append('currency', document.getElementById('currency').value);
+    const attachmentBase64 = await toBase64(file);
+    const currency = document.getElementById('currency').value;
+    const baseAmount = parseFloat(document.getElementById('amount').value) || 0;
+
+    if (currency === 'USD') { await fetchUsdToInrRate(); }
     
-    // NEW: Added Payment Method
-    formData.append('paymentMethod', document.getElementById('paymentMethod').value);
+    // Original Base logic
+    const baseINR = currency === 'USD' ? baseAmount * USD_TO_INR_RATE : baseAmount;
+    const extraPercent = document.getElementById('hasExtraCharges').checked 
+        ? parseFloat(document.getElementById('chargesAmount').value || 0) : 0;
+    
+    // Total calculation
+    const totalINR = (baseINR * (1 + extraPercent / 100)).toFixed(2);
 
-    const hasExtra = document.getElementById('hasExtraCharges').checked;
-    const mainAmount = document.getElementById('amount').value;
-    const extraAmount = hasExtra ? document.getElementById('chargesAmount').value : "0";
-
-    // Ensure these keys match your n8n nodes
-    formData.append('amountINR', mainAmount); 
-    formData.append('amount', mainAmount); // Keep this as a backup if needed
-    formData.append('hasExtraCharges', hasExtra);
-    formData.append('chargesAmount', extraAmount);
-    formData.append('extraCharges', extraAmount);
+    const payload = {
+        billName: billName.value,
+        invoiceNumber: invoiceNumber.value,
+        invoiceDate: invoiceDate.value,
+        site: site.value,
+        subLedger: subLedger.value,
+        gstNumber: gstNumber.value,
+        currency: currency,
+        amountINR: totalINR, // This is saved as the total for reimbursement
+        baseAmountINR: baseINR.toFixed(2), // This is saved as original base
+        amountUSD: (totalINR / USD_TO_INR_RATE).toFixed(2),
+        extraCharges: extraPercent,
+        attachment: attachmentBase64
+    };
 
     try {
-        const r = await fetch('https://n8n.wowflo.io/webhook/d321cdb8-b310-4197-9bfc-f840eb34a3bf', { 
-            method: 'POST', 
-            body: formData // Note: Do not set Content-Type header manually with FormData
+        const r = await fetch('https://n8n.wowflo.io/webhook/d321cdb8-b310-4197-9bfc-f840eb34a3bf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
-        if(r.ok) { 
-            alert("✅ Success! Record has been securely saved."); 
-            this.reset(); 
-            document.getElementById('chargesContainer').style.display = 'none';
-        } else {
-            alert("Server returned an error. Please check the webhook.");
-        }
-    } catch(err) { 
-        alert("Error saving bill. Please check your connection."); 
-    }
+        if (r.ok) { alert("✅ Success!"); this.reset(); }
+    } catch { alert("❌ Error"); }
     loader(false);
 };
-        // LOAD DATA
-        async function loadEditData() {
-            loader(true, "Fetching Data...");
-            const from = document.getElementById('editFromDate').value;
-            const to = document.getElementById('editToDate').value;
-            try {
-                const r = await fetch('https://n8n.wowflo.io/webhook/get-reimbursements');
-                const data = await r.json();
-                const tbody = document.querySelector('#editTable tbody');
-                tbody.innerHTML = '';
-                
-                const filtered = data.filter(i => {
-                    if (!i.invoiceNumber) return false;
-                    let d = new Date(i.invoiceDate);
-                    return (!from || d >= new Date(from)) && (!to || d <= new Date(to));
-                });
 
-                if(filtered.length === 0) {
-                    document.getElementById('tableContainer').style.display = 'none';
-                    document.getElementById('emptyState').style.display = 'block';
-                } else {
-                    document.getElementById('emptyState').style.display = 'none';
-                    filtered.forEach(i => {
-                        const tr = document.createElement('tr');
-                        tr.setAttribute('data-inv', i.invoiceNumber);
-                        const pMethod = i.paymentMethod || 'Card';
-                        tr.innerHTML = `
-                            <td style="font-weight:800; color:var(--primary);">${i.invoiceNumber}</td>
-                            <td style="font-weight:600;">${i.billName || ''}</td>
-                            <td>${i.invoiceDate || ''}</td>
-                            <td>${i.site || ''}</td>
-                            <td>${i.subLedger || ''}</td>
-                            <td><code>${i.gstNumber || ''}</code></td>
-                            <td><b>${i.currency || ''}</b></td>
-                            <td style="font-weight:700;">${i.amount || ''}</td>
-                            <td><span class="badge badge-${pMethod.toLowerCase()}">${pMethod}</span></td>
-                            <td>${i.chargesAmount || 0}</td>
-                            <td><button class="btn-edit" onclick="toggleEdit(this)">Edit</button></td>`;
-                        tbody.appendChild(tr);
-                    });
-                    document.getElementById('tableContainer').style.display = 'block';
-                }
-            } catch(e) { alert("Error loading data."); }
-            loader(false);
+async function loadEditData() {
+    loader(true, "Fetching Data...");
+    const from = document.getElementById('editFromDate').value;
+    const to = document.getElementById('editToDate').value;
+    try {
+        const r = await fetch('https://n8n.wowflo.io/webhook/get-reimbursements');
+        const data = await r.json();
+        const tbody = document.querySelector('#editTable tbody');
+        tbody.innerHTML = '';
+        const filtered = data.filter(i => {
+            const d = new Date(i.invoiceDate);
+            return (!from || d >= new Date(from)) && (!to || d <= new Date(to));
+        });
+        if (!filtered.length) {
+            document.getElementById('tableContainer').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+        } else {
+            document.getElementById('emptyState').style.display = 'none';
+            filtered.forEach(i => {
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-inv', i.invoiceNumber);
+                // logic: i.amountINR is total, i.baseAmountINR is original
+                const displayBase = i.baseAmountINR || i.amountINR; 
+                tr.innerHTML = `
+                    <td style="font-weight:800;color:var(--primary)">${i.invoiceNumber}</td>
+                    <td>${i.billName || ''}</td>
+                    <td>${i.invoiceDate || ''}</td>
+                    <td>${i.site || ''}</td>
+                    <td>${i.subLedger || ''}</td>
+                    <td>${i.gstNumber || ''}</td>
+                    <td>${i.currency || ''}</td>
+                    <td class="total-cell" style="font-weight:600; color:var(--success)">₹${i.amountINR || '0.00'}</td>
+                    <td class="usd-cell" style="color:var(--slate-600)">$${i.amountUSD || '0.00'}</td>
+                    <td class="base-cell" style="color:var(--slate-600)">₹${displayBase}</td>
+                    <td class="charges-cell">${i.extraCharges || 0}%</td>
+                    <td><button class="btn-edit" onclick="toggleEdit(this)">Edit</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('tableContainer').style.display = 'block';
         }
+    } catch { alert("Error loading"); }
+    loader(false);
+}
 
-        // TOGGLE EDIT
-        async function toggleEdit(btn) {
-            const row = btn.closest('tr');
-            const invNo = row.getAttribute('data-inv');
-            const cells = row.cells;
+function syncCalculation(row) {
+    const baseInput = row.querySelector('.edit-inr');
+    const percentInput = row.querySelector('.edit-percent');
+    const totalCell = row.querySelector('.total-cell');
+    const usdCell = row.querySelector('.usd-cell');
 
-            if (btn.innerText === "Edit") {
-                btn.innerText = "Save";
-                btn.className = "btn-save";
-                
-                // Convert cells to input fields
-                cells[1].innerHTML = `<input type="text" class="edit-input" value="${cells[1].innerText}">`;
-                cells[2].innerHTML = `<input type="date" class="edit-input" value="${cells[2].innerText}">`;
-                cells[3].innerHTML = `<input type="text" class="edit-input" value="${cells[3].innerText}">`;
-                cells[4].innerHTML = `<input type="text" class="edit-input" value="${cells[4].innerText}">`;
-                cells[5].innerHTML = `<input type="text" class="edit-input" value="${cells[5].innerText}">`;
-                
-                const currentCurr = cells[6].innerText;
-                cells[6].innerHTML = `<select class="edit-input">
-                    <option value="INR" ${currentCurr === 'INR' ? 'selected' : ''}>INR</option>
-                    <option value="USD" ${currentCurr === 'USD' ? 'selected' : ''}>USD</option>
-                </select>`;
-                
-                cells[7].innerHTML = `<input type="number" step="0.01" class="edit-input" value="${cells[7].innerText}">`;
-                
-                const currentPay = cells[8].innerText;
-                cells[8].innerHTML = `<select class="edit-input">
-                    <option value="Card" ${currentPay === 'Card' ? 'selected' : ''}>Card</option>
-                    <option value="Cash" ${currentPay === 'Cash' ? 'selected' : ''}>Cash</option>
-                    <option value="UPI" ${currentPay === 'UPI' ? 'selected' : ''}>UPI</option>
-                </select>`;
-                
-                cells[9].innerHTML = `<input type="number" step="0.01" class="edit-input" value="${cells[9].innerText}">`;
-            } else {
-                loader(true, "Updating Record...");
-                
-                // Capture the new charges amount
-                const newChargesAmount = parseFloat(cells[9].querySelector('input').value) || 0;
+    const base = parseFloat(baseInput.value) || 0;
+    const pct = parseFloat(percentInput.value) || 0;
 
-                const payload = {
-                    action: 'update',
-                    invoiceNumber: invNo,
-                    billName: cells[1].querySelector('input').value,
-                    invoiceDate: cells[2].querySelector('input').value,
-                    site: cells[3].querySelector('input').value,
-                    subLedger: cells[4].querySelector('input').value,
-                    gstNumber: cells[5].querySelector('input').value,
-                    currency: cells[6].querySelector('select').value,
-                    amount: parseFloat(cells[7].querySelector('input').value) || 0,
-                    paymentMethod: cells[8].querySelector('select').value,
-                    chargesAmount: newChargesAmount,
-                    // Logic: If charges > 0, set hasExtraCharges to true
-                    hasExtraCharges: newChargesAmount > 0 
-                };
+    const newTotal = base * (1 + pct / 100);
+    totalCell.innerText = `₹${newTotal.toFixed(2)}`;
+    usdCell.innerText = `$${(newTotal / USD_TO_INR_RATE).toFixed(2)}`;
+}
 
-                try {
-                    const r = await fetch('https://n8n.wowflo.io/webhook/update-reimbursement', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(payload)
-                    });
+async function toggleEdit(btn) {
+    const row = btn.closest('tr');
+    const cells = row.cells;
+    
+    if (btn.innerText === "Edit") {
+        btn.innerText = "Save";
+        btn.className = "btn-save";
+        
+        // Basic fields
+        for (let i = 1; i <= 5; i++) cells[i].innerHTML = `<input class="edit-input" value="${cells[i].innerText}">`;
+        
+        // Currency
+        const curr = cells[6].innerText;
+        cells[6].innerHTML = `<select class="edit-input"><option ${curr==='INR'?'selected':''}>INR</option><option ${curr==='USD'?'selected':''}>USD</option></select>`;
+        
+        // Base Amount (INR) field
+        const rawBase = cells[9].innerText.replace('₹', '');
+        cells[9].innerHTML = `<input type="number" class="edit-input edit-inr" value="${rawBase}" oninput="syncCalculation(this.closest('tr'))">`;
 
-                    if (r.ok) {
-                        // Update UI back to text
-                        cells[1].innerText = payload.billName;
-                        cells[2].innerText = payload.invoiceDate;
-                        cells[3].innerText = payload.site;
-                        cells[4].innerText = payload.subLedger;
-                        cells[5].innerText = payload.gstNumber;
-                        cells[6].innerText = payload.currency;
-                        cells[7].innerText = payload.amount;
-                        cells[8].innerHTML = `<span class="badge badge-${payload.paymentMethod.toLowerCase()}">${payload.paymentMethod}</span>`;
-                        cells[9].innerText = payload.chargesAmount;
-                        
-                        btn.innerText = "Edit";
-                        btn.className = "btn-edit";
-                    } else {
-                        alert("Failed to update record on the server.");
-                    }
-                } catch(e) { 
-                    alert("Update failed. Check your connection."); 
-                }
-                loader(false);
-            }
-        }
+        // Charges % field
+        const rawPct = cells[10].innerText.replace('%', '');
+        cells[10].innerHTML = `<input type="number" class="edit-input edit-percent" value="${rawPct}" oninput="syncCalculation(this.closest('tr'))">`;
+        
+    } else {
+        loader(true, "Updating...");
+        
+        const finalBase = parseFloat(cells[9].querySelector('input').value) || 0;
+        const finalPct = parseFloat(cells[10].querySelector('input').value) || 0;
+        const finalTotal = (finalBase * (1 + finalPct / 100)).toFixed(2);
 
-        // CALCULATION (REPORT)
-        document.getElementById('calculationForm').onsubmit = async function(e) {
-            e.preventDefault();
-            loader(true, "Preparing Report...");
-            try {
-                const r = await fetch('https://n8n.wowflo.io/webhook/35889b23-c42e-4f6a-b008-d116d85fadb8', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        fromDate: document.getElementById('calcFromDate').value,
-                        toDate: document.getElementById('calcToDate').value,
-                        action: 'send_report'
-                    })
-                });
-                if(r.ok) {
-                    alert("📧 Report request sent! Check your inbox shortly.");
-                }
-            } catch(err) { alert("Report generation failed."); }
-            loader(false);
+        const payload = {
+            action: 'update',
+            invoiceNumber: row.dataset.inv,
+            billName: cells[1].querySelector('input').value,
+            invoiceDate: cells[2].querySelector('input').value,
+            site: cells[3].querySelector('input').value,
+            subLedger: cells[4].querySelector('input').value,
+            gstNumber: cells[5].querySelector('input').value,
+            currency: cells[6].querySelector('select').value,
+            amountINR: finalTotal, // New Total
+            baseAmountINR: finalBase.toFixed(2), // Preserved Base
+            amountUSD: (finalTotal / USD_TO_INR_RATE).toFixed(2),
+            extraCharges: finalPct
         };
-    </script>
+
+        try {
+            const res = await fetch('https://n8n.wowflo.io/webhook/update-reimbursement', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if(res.ok) { await loadEditData(); alert("✅ Updated"); }
+        } catch { alert("❌ Failed"); }
+        loader(false);
+    }
+}
+
+document.getElementById('calculationForm').onsubmit = async function (e) {
+    e.preventDefault();
+    loader(true, "Preparing Report...");
+    try {
+        await fetch('https://n8n.wowflo.io/webhook/35889b23-c42e-4f6a-b008-d116d85fadb8', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fromDate: calcFromDate.value, toDate: calcToDate.value, action: 'send_report' })
+        });
+        alert("📧 Sent!");
+    } catch { alert("Failed"); }
+    loader(false);
+};
+</script>
 </body>
 </html>
